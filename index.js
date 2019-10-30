@@ -6,6 +6,8 @@ server.listen(4000, () => {
     console.log('=== server listening on port 4000');
 });
 
+server.use(express.json());
+
 //GET route handler
 server.get('/', (req, res) => {
     res.send('Home route');
@@ -22,4 +24,14 @@ server.get('/hubs', (req, res) => {
                 success: false
             });
         });
+});
+
+//POST
+server.post('/hubs', (req, res) => {
+    const hubInfo = req.body;
+    db.add(hubInfo)
+        .then(hub) => {
+            res.status(201).json({success:true, hub});
+        }
+        
 });
