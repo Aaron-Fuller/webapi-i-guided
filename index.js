@@ -1,5 +1,6 @@
 const express = require('express');
 const server = express();
+const db = require('./data/hubs-model')
 
 server.listen(4000, () => {
     console.log('=== server listening on port 4000');
@@ -7,5 +8,18 @@ server.listen(4000, () => {
 
 //GET route handler
 server.get('/', (req, res) => {
-    res.send('here it is');
+    res.send('Home route');
+});
+
+server.get('/hubs', (req, res) => {
+    db.find()
+        .then(hubs => {
+            res.status(200).json(hubs);
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: err,
+                success: false
+            });
+        });
 });
